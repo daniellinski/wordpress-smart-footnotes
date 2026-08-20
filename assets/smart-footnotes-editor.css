@@ -1,0 +1,23 @@
+/*
+ * The marker's pill look comes from the front-end stylesheet
+ * (assets/smart-footnotes.css), which is loaded inside the block editor
+ * iframe via `enqueue_block_assets`. Only editor-specific additions live here.
+ */
+
+/* Selected footnote marker inside the editing canvas. */
+body.block-editor-iframe__body [data-rich-text-format-boundary] .smart-footnote__button {
+	background: #161616;
+	color: #fff;
+	cursor: pointer;
+}
+
+/* The "footnote" placeholder label needs more room than the front-end number. */
+body.block-editor-iframe__body .smart-footnote__button {
+	min-width: 5.5em;
+}
+
+.smart-footnote-editor__actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 1rem;
+}
