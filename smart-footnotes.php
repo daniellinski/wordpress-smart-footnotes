@@ -3,6 +3,8 @@
  * Plugin Name: Smart Footnotes
  * Description: Adds nice-looking inline footnotes with a native Gutenberg format. The legacy [sfn] shortcode is still supported for existing content.
  * Version: 2.0.3
+ * Plugin URI: https://github.com/daniellinski/wordpress-smart-footnotes
+ * Update URI: https://github.com/daniellinski/wordpress-smart-footnotes/
  * Author: Daniël Dols
  * Author URI: https://www.fuen.nl
  */
@@ -12,6 +14,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'SMART_FOOTNOTES_VERSION', '2.0.3' );
+
+// Check the GitHub repository for plugin updates and enable one-click updates.
+require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$smart_footnotes_update_checker = PucFactory::buildUpdateChecker(
+	'https://github.com/daniellinski/wordpress-smart-footnotes/',
+	__FILE__,
+	'wordpress-smart-footnotes'
+);
+
+// The main branch contains the stable plugin version and its plugin headers.
+$smart_footnotes_update_checker->setBranch( 'main' );
 
 /**
  * Enqueue front-end JavaScript.
