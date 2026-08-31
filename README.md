@@ -53,32 +53,6 @@ For a link-only footnote, omit the `text` attribute:
 [sfn url="https://example.com/source"]
 ```
 
-Footnote text accepts the HTML allowed by WordPress post content. URLs are sanitized before they are rendered.
-
-## Updates
-
-Smart Footnotes uses [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker) to check this GitHub repository for new versions. Updates are delivered through the normal WordPress plugin update screen.
-
-To publish an update:
-
-1. Change the version in the plugin header and `SMART_FOOTNOTES_VERSION` in `smart-footnotes.php`.
-2. Commit the changes to the `main` branch, or publish a GitHub release/tag.
-3. Package the plugin with the complete `wordpress-smart-footnotes` directory, including `plugin-update-checker/`.
-
-## Development
-
-The plugin has no build step. Its main components are:
-
-- `smart-footnotes.php` — plugin bootstrap, rendering, shortcode, and update checker setup.
-- `assets/smart-footnotes-editor.js` — block editor rich-text integration.
-- `assets/smart-footnotes.js` — front-end popover interaction.
-- `assets/smart-footnotes.css` — front-end styling.
-
-Before submitting changes, validate the PHP files with:
-
-```bash
-find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
-```
 
 ## License
 
