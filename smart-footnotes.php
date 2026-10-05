@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Smart Footnotes
  * Description: Adds nice-looking inline footnotes with a native Gutenberg format. The legacy [sfn] shortcode is still supported for existing content.
- * Version: 2.0.3
+ * Version: 2.0.4
  * Plugin URI: https://github.com/daniellinski/wordpress-smart-footnotes
  * Update URI: https://github.com/daniellinski/wordpress-smart-footnotes/
  * Author: Daniël Dols
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SMART_FOOTNOTES_VERSION', '2.0.3' );
+define( 'SMART_FOOTNOTES_VERSION', '2.0.4' );
 
 // Check the GitHub repository for plugin updates and enable one-click updates.
 require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
@@ -49,6 +49,9 @@ add_action( 'wp_enqueue_scripts', 'smart_footnotes_enqueue_assets' );
  * Hooked to `enqueue_block_assets` so the styling also loads inside the
  * block editor iframe, making the footnote markers render exactly like
  * the front end.
+ *
+ * The `path` data lets core inline this small stylesheet via
+ * wp_maybe_inline_styles() instead of loading it as a separate request.
  */
 function smart_footnotes_enqueue_block_assets() {
 	wp_enqueue_style(
@@ -57,6 +60,8 @@ function smart_footnotes_enqueue_block_assets() {
 		array(),
 		SMART_FOOTNOTES_VERSION
 	);
+
+	wp_style_add_data( 'smart-footnotes', 'path', plugin_dir_path( __FILE__ ) . 'assets/smart-footnotes.css' );
 }
 add_action( 'enqueue_block_assets', 'smart_footnotes_enqueue_block_assets' );
 
@@ -93,8 +98,14 @@ add_action( 'enqueue_block_editor_assets', 'smart_footnotes_enqueue_editor_asset
 /**
  * Load the editor stylesheet inside the block editor iframe too, so the
  * marker's selected state is styled within the editing canvas.
+ *
+ * `enqueue_block_assets` also fires on the front end, so bail outside admin.
  */
 function smart_footnotes_enqueue_editor_iframe_assets() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
 	wp_enqueue_style(
 		'smart-footnotes-editor',
 		plugin_dir_url( __FILE__ ) . 'assets/smart-footnotes-editor.css',
